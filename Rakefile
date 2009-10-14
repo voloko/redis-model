@@ -24,6 +24,7 @@ begin
     gemspec.email = "voloko@gmail.com"
     gemspec.homepage = "http://github.com/voloko/redis-model"
     gemspec.authors = ["Vladimir Kolesnikov"]
+    gemspec.add_dependency("redis-rb", [">= 0"])
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
