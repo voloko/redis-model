@@ -1,10 +1,6 @@
-# redis-rb
+## redis-model
 
-A ruby client library for the redis key value storage system.
-
-## Models
-
-Minimal model support for redis-rb. 
+Minimal model support for [redis-rb](http://github.com/ezmobius/redis-rb). 
 Directly maps ruby properties to `model_name:id:field_name` keys in redis. 
 Scalar, list and set properties are supported.
 

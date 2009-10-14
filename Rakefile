@@ -14,3 +14,17 @@ Spec::Rake::SpecTask.new(:rcov) do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.rcov = true
 end
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "redis-model"
+    gemspec.summary = "Minimal models for Redis"
+    gemspec.description = "Minimal model support for redis-rb. Directly maps ruby properties to model_name:id:field_name keys in redis. Scalar, list and set properties are supported."
+    gemspec.email = "voloko@gmail.com"
+    gemspec.homepage = "http://github.com/voloko/redis-model"
+    gemspec.authors = ["Vladimir Kolesnikov"]
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+end
