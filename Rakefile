@@ -24,7 +24,7 @@ begin
     gemspec.email = "voloko@gmail.com"
     gemspec.homepage = "http://github.com/voloko/redis-model"
     gemspec.authors = ["Vladimir Kolesnikov"]
-    gemspec.add_dependency("redis", [">= 0.1.0"])
+    gemspec.add_dependency("redis", [">= 0.0.1"])
     gemspec.add_development_dependency("rspec", [">= 1.2.8"])
   end
 rescue LoadError
