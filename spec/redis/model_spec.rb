@@ -184,5 +184,17 @@ describe Redis::Model do
       @redisMock.should_receive(:sadd).with('test_commands:1:sloppy', 'bar')
       @x.sloppy << 'bar'
     end
+    
+    it "should delete separate fields" do
+      @redisMock.should_receive(:delete).with('test_commands:1:foo')
+      @x.delete :foo
+    end
+    
+    it "should delete all field" do
+      @redisMock.should_receive(:delete).with('test_commands:1:foo')
+      @redisMock.should_receive(:delete).with('test_commands:1:bar')
+      @redisMock.should_receive(:delete).with('test_commands:1:sloppy')
+      @x.delete
+    end
   end
 end
