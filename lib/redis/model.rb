@@ -156,7 +156,7 @@ protected
     end
   
     def next_id #:nodoc:
-      redis.incr "sequence:#{self.new.prefix}:id"
+      redis.incr "sequence:#{prefix}:id"
     end
   
     def populate_model(model, values) #:nodoc:
