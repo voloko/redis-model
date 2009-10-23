@@ -66,11 +66,7 @@ class Redis::Model
   
 protected
   def prefix #:nodoc:
-    @prefix ||= self.class.prefix || self.class.to_s.
-      sub(%r{(.*::)}, '').
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      downcase
+    @prefix ||= self.class.prefix
   end
 
   def field_key(name) #:nodoc:
@@ -80,7 +76,14 @@ protected
   class << self
     # Defaults to model_name.dasherize
     attr_accessor :prefix
-  
+    
+    def prefix
+      self.class.to_s.
+        sub(%r{(.*::)}, '').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        downcase
+    end
   
     # Creates new model instance with new uniqid
     # NOTE: "sequence:model_name:id" key is used
