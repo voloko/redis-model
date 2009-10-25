@@ -1,26 +1,26 @@
-## redis-model
+= redis-model
 
 Minimal model support for [redis-rb](http://github.com/ezmobius/redis-rb). 
-Directly maps ruby properties to `model_name:id:field_name` keys in redis. 
+Directly maps ruby properties to <tt>model_name:id:field_name</tt> keys in redis. 
 Scalar, list and set properties are supported.
 
-Values can be marshaled to/from `Integer`, `Float`, `DateTime`, `JSON`. See `Redis::Model::Marshal` for more info.
+Values can be marshaled to/from <tt>Integer</tt>, <tt>Float</tt>, <tt>DateTime</tt>, <tt>JSON</tt>. See <tt>Redis::Model::Marshal</tt> for more info.
 
-### Define
+== Define
 
     require 'redis/model'
     
     class User < Redis::Model
-      value :name,      :string
-      value :created,   :datetime
-      value :profile,   :json
+      field :name,      :string
+      field :created,   :datetime
+      field :profile,   :json
       
       list  :posts,     :json
       
       set   :followers, :int
     end
 
-### Write
+== Write
 
     u = User.with_key(1)
     u.name = 'Joe'                      # set user:1:name Joe
@@ -36,7 +36,7 @@ Values can be marshaled to/from `Integer`, `Float`, `DateTime`, `JSON`. See `Red
     }           
     u.followers << 2                    # sadd user:1:followers 2
 
-### Read
+== Read
 
     u = User.with_key(1)
     p u.name                            # get user:1:name
