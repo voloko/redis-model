@@ -152,6 +152,37 @@ describe Redis::Model do
 
   end
   
+  context "increment/decrement" do
+    class TestIncrements < Redis::Model
+      field :foo, :integer
+      field :bar, :string
+      field :baz, :float
+    end
+    
+    before do
+      @redisMock = Spec::Mocks::Mock.new
+      @x = TestIncrements.with_key(1)
+      @x.stub!(:redis).and_return(@redisMock)
+    end
+    
+    it "should send INCR when #increment! is called on an integer" do
+      @redisMock.should_receive(:incr).with("test_increments:1:foo", 1)
+      @x.increment!(:foo)
+    end
+    
+    it "should send DECR when #decrement! is called on an integer" do
+      @redisMock.should_receive(:decr).with("test_increments:1:foo", 1)
+      @x.decrement!(:foo)
+    end
+    
+    it "should raise an ArgumentError when called on non-integers" do
+      [:bar, :baz].each do |f|
+        lambda{@x.increment!(f)}.should raise_error(ArgumentError)
+        lambda{@x.decrement!(f)}.should raise_error(ArgumentError)
+      end
+    end
+  end
+  
   context "redis commands" do
     class TestCommands < Redis::Model
       field :foo

@@ -68,6 +68,20 @@ class Redis::Model
     "#{prefix}:#{id}:#{name}"
   end
   
+  # Increment the specified integer field by 1 or the
+  # specified amount.
+  def increment!(name,amount=1)
+    raise ArgumentError, "Only integer fields can be incremented." unless self.class.fields.include?({:name => name.to_s, :type => :integer})
+    redis.incr(field_key(name), amount)
+  end
+  
+  # Decrement the specified integer field by 1 or the
+  # specified amount.
+  def decrement!(name,amount=1)
+    raise ArgumentError, "Only integer fields can be decremented." unless self.class.fields.include?({:name => name.to_s, :type => :integer})    
+    redis.decr(field_key(name), amount)
+  end
+  
 protected
   def prefix #:nodoc:
     @prefix ||= self.class.prefix || self.class.to_s.
@@ -94,9 +108,12 @@ protected
   
     # Defines marshaled rw accessor for redis string value
     def field(name, type = :string)
+      type = type.to_sym
+      type = :integer if type == :int
+      
       class_name = marshal_class_name(name, type)
       
-      fields << {:name => name.to_s, :type => :type}
+      fields << {:name => name.to_s, :type => type}
       if type == :string
         class_eval "def #{name}; @#{name} ||= redis[field_key('#{name}')]; end"
         class_eval "def #{name}=(value); @#{name} = redis[field_key('#{name}')] = value; end"
@@ -168,7 +185,6 @@ protected
   module Marshal
     TYPES = {
       :string   => 'String',
-      :int      => 'Integer',
       :integer  => 'Integer',
       :float    => 'Float',
       :datetime => 'DateTime',
