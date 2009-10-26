@@ -64,6 +64,10 @@ class Redis::Model
     end
   end
   
+  def field_key(name) #:nodoc:
+    "#{prefix}:#{id}:#{name}"
+  end
+  
 protected
   def prefix #:nodoc:
     @prefix ||= self.class.prefix || self.class.to_s.
@@ -73,10 +77,6 @@ protected
       downcase
   end
 
-  def field_key(name) #:nodoc:
-    "#{prefix}:#{id}:#{name}"
-  end
-  
   class << self
     # Defaults to model_name.dasherize
     attr_accessor :prefix
